@@ -22,7 +22,7 @@ function FormLabelAndInput({
         name={name}
         type={type}
         placeholder={placeholder}
-        className="block py-[10px] text-sm font-light outline-none border border-black rounded-lg px-2 w-full"
+        className="block py-[6px] text-[12px] font-thin outline-none border border-black rounded-lg px-2 w-full"
       />
     </div>
   );
