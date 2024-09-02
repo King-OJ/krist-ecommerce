@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import ActionButton from "./ActionButton";
+import { ModalContext, ModalContextType } from "./ClientLayout";
 
 type OTPInputProps = {
   length?: number;
@@ -9,6 +10,8 @@ type OTPInputProps = {
 };
 
 export default function OTPInputs({ length = 5, onComplete }: OTPInputProps) {
+  const { openModal } = useContext(ModalContext) as ModalContextType;
+
   const inputRef = useRef<HTMLInputElement[]>(Array(length).fill(null));
 
   const [OTP, setOTP] = useState<string[]>(Array(length).fill(""));
@@ -21,10 +24,6 @@ export default function OTPInputs({ length = 5, onComplete }: OTPInputProps) {
     if (input.length === 1 && index < length - 1) {
       inputRef.current[index + 1]?.focus();
     }
-
-    // if (OTP.every((input) => input !== "")) {
-    //   onComplete();
-    // }
   }
 
   return (
@@ -56,10 +55,13 @@ export default function OTPInputs({ length = 5, onComplete }: OTPInputProps) {
           ))}
         </div>
       </div>
-      <ActionButton
-        title={"verify"}
-        disabled={!OTP.every((input) => input !== "")}
-      />
+      <div className="mt-8">
+        <ActionButton
+          title={"verify"}
+          disabled={!OTP.every((input) => input !== "")}
+          action={openModal}
+        />
+      </div>
     </>
   );
 }

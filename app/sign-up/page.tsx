@@ -31,7 +31,7 @@ function SignUp() {
 
   return (
     <main>
-      <div className="flex relative h-screen lg:mr-12">
+      <div className="flex relative h-screen lg:mr-20">
         <div className="hidden md:block md:flex-1 h-full">
           <Image
             src="/krist_signUp_img.png"
@@ -44,10 +44,10 @@ function SignUp() {
         </div>
         <div className="h-full flex items-center w-full md:w-[50%] px-4 md:px-8">
           <form action="#" className="flex-1">
-            <h3 className="text-2xl font-bold mb-[1px] capitalize">
+            <h3 className="text-2xl font-bold mb-1 capitalize">
               create new account
             </h3>
-            <h6 className="text-neutral-400 text-xs lg:text-[14px] font-light mb-6">
+            <h6 className="text-grey text-xs lg:text-[14px] font-light mb-6">
               Please enter details
             </h6>
             <FormLabelAndInput
@@ -96,33 +96,25 @@ function SignUp() {
               </div>
             </div>
 
-            <ActionButton
-              title={"Sign Up"}
-              action={() => console.log(Object.values(inputsState))}
-              disabled={
-                !Object.values(inputsState).every((field, index) => {
-                  if (index == 3) {
-                    if (field.length < 6) {
-                      return false;
-                    } else {
-                      return true;
+            <div className="mt-8">
+              <ActionButton
+                title={"Sign Up"}
+                action={() => console.log(Object.values(inputsState))}
+                disabled={
+                  !Object.values(inputsState).every((field, index) => {
+                    if (index == 3) {
+                      if (field.length < 6) {
+                        return false;
+                      } else {
+                        return true;
+                      }
                     }
-                  }
-                  return field !== "";
-                })
-              }
-            />
+                    return field !== "";
+                  })
+                }
+              />
+            </div>
           </form>
-        </div>
-        <div className="absolute left-6 top-6 md:left-10 md:top-10 flex items-center space-x-[2px]">
-          <Image
-            src="/krist_logo.png"
-            alt="kriss logo"
-            width={100}
-            height={100}
-            className="w-auto h-auto"
-          />
-          <h3 className="text-2xl">Krist</h3>
         </div>
       </div>
     </main>

@@ -22,7 +22,7 @@ function FormLabelAndInput({
     <div className="mb-4 w-full block">
       <label
         htmlFor={name}
-        className="capitalize block text-xs font-extralight mb-1"
+        className="capitalize block text-xs font-normal mb-1"
       >
         {label}
       </label>
