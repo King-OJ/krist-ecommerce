@@ -23,7 +23,7 @@ export default function page() {
   }
 
   return (
-    <main>
+    <section>
       <div className="flex relative h-screen lg:mr-20">
         <div className="hidden md:block md:flex-1 h-full">
           <Image
@@ -76,6 +76,6 @@ export default function page() {
           </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

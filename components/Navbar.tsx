@@ -1,5 +1,5 @@
 import { TbShoppingBag, TbHeart, TbSearch } from "react-icons/tb";
-import ActionButton from "./ActionButton";
+import LinkButton from "./LinkButton";
 
 type Link = {
   title: string;
@@ -53,7 +53,7 @@ function Navbar() {
               <li className="x">
                 <TbShoppingBag />
               </li>
-              <ActionButton title={"login"} />
+              <LinkButton title={"login"} href="/sign-in" />
             </ul>
           </div>
         </nav>

@@ -13,3 +13,8 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.verticalText {
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+}

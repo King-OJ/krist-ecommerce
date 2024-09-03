@@ -2,9 +2,9 @@ import Hero from "@/components/Hero";
 
 const HomePage = () => {
   return (
-    <main>
+    <section>
       <Hero />
-    </main>
+    </section>
   );
 };
 export default HomePage;

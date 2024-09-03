@@ -30,7 +30,7 @@ function SignUp() {
   }
 
   return (
-    <main>
+    <section>
       <div className="flex relative h-screen lg:mr-20">
         <div className="hidden md:block md:flex-1 h-full">
           <Image
@@ -117,7 +117,7 @@ function SignUp() {
           </form>
         </div>
       </div>
-    </main>
+    </section>
   );
 }
 

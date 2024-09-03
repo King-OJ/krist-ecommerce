@@ -28,27 +28,25 @@ const ClientLayout = ({
   }
 
   return (
-    <html lang="en">
-      <body className="max-w-7xl mx-auto relative">
-        <ModalContext.Provider value={{ showModal, closeModal, openModal }}>
-          <Link
-            href={"/"}
-            className="z-10 absolute left-4 top-6 md:left-10 flex items-center space-x-[2px]"
-          >
-            <Image
-              src="/krist_logo.png"
-              alt="kriss logo"
-              width={100}
-              height={100}
-              className="w-auto h-auto"
-            />
-            <h3 className="text-2xl">Krist</h3>
-          </Link>
-          {children}
-          {showModal && <ModalBox onClose={closeModal} />}
-        </ModalContext.Provider>
-      </body>
-    </html>
+    <main className="max-w-7xl mx-auto relative">
+      <ModalContext.Provider value={{ showModal, closeModal, openModal }}>
+        <Link
+          href={"/"}
+          className="z-10 absolute left-4 top-6 md:left-10 flex items-center space-x-[2px]"
+        >
+          <Image
+            src="/krist_logo.png"
+            alt="kriss logo"
+            width={100}
+            height={100}
+            className="w-auto h-auto"
+          />
+          <h3 className="text-2xl">Krist</h3>
+        </Link>
+        {children}
+        {showModal && <ModalBox onClose={closeModal} />}
+      </ModalContext.Provider>
+    </main>
   );
 };
 export default ClientLayout;
