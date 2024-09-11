@@ -16,7 +16,7 @@ export default function Hero() {
                 womens collection
               </h1>
               <p className="uppercase text-base md:text-lg">upto 40% off</p>
-              <div className="max-w-[300px] mt-2 md:mt-8">
+              <div className="max-w-[260px] mt-2 md:mt-8">
                 <LinkButton title={"shop now"} icon={"arrow"} href={"/shop"} />
               </div>
             </div>
