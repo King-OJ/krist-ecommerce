@@ -7,7 +7,7 @@ export default function page() {
   function OTPinputComplete() {}
 
   return (
-    <section>
+    <div>
       <div className="flex h-screen lg:mr-20">
         <div className="hidden md:block md:flex-1 h-full">
           <Image
@@ -44,6 +44,6 @@ export default function page() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

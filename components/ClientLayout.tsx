@@ -4,6 +4,9 @@ import { createContext, useState } from "react";
 import ModalBox from "./ModalBox";
 import Image from "next/image";
 import Link from "next/link";
+import AuthUserProvider from "@/context/AuthUserContext";
+import Navbar from "./Navbar";
+import { usePathname } from "next/navigation";
 
 export type ModalContextType = {
   showModal: boolean;
@@ -26,27 +29,37 @@ const ClientLayout = ({
   function openModal() {
     setShowModal(true);
   }
+  const pathname = usePathname();
+  const noNavbar = [
+    "/sign-in",
+    "/sign-up",
+    "/forgot-password",
+    "/forgot-password/otp",
+  ].includes(pathname);
 
   return (
-    <main className="max-w-7xl mx-auto relative">
-      <ModalContext.Provider value={{ showModal, closeModal, openModal }}>
-        <Link
-          href={"/"}
-          className="z-10 absolute left-4 top-6 md:left-10 flex items-center space-x-[2px]"
-        >
-          <Image
-            src="/krist_logo.png"
-            alt="kriss logo"
-            width={100}
-            height={100}
-            className="w-auto h-auto"
-          />
-          <h3 className="text-2xl">Krist</h3>
-        </Link>
-        {children}
-        {showModal && <ModalBox onClose={closeModal} />}
-      </ModalContext.Provider>
-    </main>
+    <AuthUserProvider>
+      <main className="max-w-7xl mx-auto relative">
+        <ModalContext.Provider value={{ showModal, closeModal, openModal }}>
+          <Link
+            href={"/"}
+            className="z-10 absolute left-4 top-6 sm:top-6 md:left-10 flex items-center space-x-[2px]"
+          >
+            <Image
+              src="/krist_logo.png"
+              alt="kriss logo"
+              width={100}
+              height={100}
+              className="w-auto h-auto"
+            />
+            <h3 className="text-2xl">Krist</h3>
+          </Link>
+          {noNavbar ? null : <Navbar />}
+          {children}
+          {showModal && <ModalBox onClose={closeModal} />}
+        </ModalContext.Provider>
+      </main>
+    </AuthUserProvider>
   );
 };
 export default ClientLayout;

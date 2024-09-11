@@ -33,9 +33,10 @@ function FormLabelAndInput({
         }}
         value={value}
         name={name}
+        required
         type={type}
         placeholder={placeholder}
-        className="block py-[6px] text-[12px] font-thin outline-none border border-black rounded-lg px-2 w-full"
+        className="block py-[6px] text-[12px] text-black font-light outline-none border border-black rounded-lg px-2 w-full"
       />
     </div>
   );

@@ -18,3 +18,7 @@ input[type="number"] {
   writing-mode: vertical-lr;
   text-orientation: upright;
 }
+
+section {
+  @apply my-4 md:my-6;
+}

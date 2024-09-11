@@ -1,5 +1,7 @@
 import { TbShoppingBag, TbHeart, TbSearch } from "react-icons/tb";
 import LinkButton from "./LinkButton";
+import { useAuth } from "@/context/AuthUserContext";
+import ActionButton from "./ActionButton";
 
 type Link = {
   title: string;
@@ -31,10 +33,13 @@ function Navbar() {
     },
   ];
 
+  const { authUser: user } = useAuth();
+  // console.log(authUser);
+
   return (
     <div className="min-h-12 h-14 md:h-16">
-      <div className="flex w-full justify-end h-full pr-4 mt-2">
-        <nav className="flex items-center basis-2/3 justify-end md:justify-between">
+      <div className="flex w-full justify-end h-full pr-4">
+        <nav className="flex items-center basis-2/3 justify-end md:justify-between pt-4">
           <ul className="md:flex hidden items-center space-x-4 font-medium text-sm lg:text-base lg:space-x-8 lg:font-normal">
             {links.map((link, index) => (
               <li key={index} className="capitalize">
@@ -53,7 +58,11 @@ function Navbar() {
               <li className="x">
                 <TbShoppingBag />
               </li>
-              <LinkButton title={"login"} href="/sign-in" />
+              {user ? (
+                <ActionButton title={"sign out"} />
+              ) : (
+                <LinkButton title={"login"} href="/sign-in" />
+              )}
             </ul>
           </div>
         </nav>

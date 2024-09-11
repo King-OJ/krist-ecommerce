@@ -2,7 +2,10 @@
 import ActionButton from "@/components/ActionButton";
 import FormLabelAndInput from "@/components/FormLabelAndInput";
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
 
 export type AuthFormInput = {
   firstName?: string;
@@ -12,14 +15,18 @@ export type AuthFormInput = {
 };
 
 function SignUp() {
-  const inputs: AuthFormInput = {
+  const initialInputsState: AuthFormInput = {
     firstName: "",
     lastName: "",
     email: "",
     password: "",
   };
 
-  const [inputsState, setInputsStates] = useState<AuthFormInput>(inputs);
+  const [inputsState, setInputsStates] =
+    useState<AuthFormInput>(initialInputsState);
+
+  const [createUserWithEmailAndPassword] =
+    useCreateUserWithEmailAndPassword(auth);
 
   function onInputsChange(e: ChangeEvent) {
     if (!e.target) return;
@@ -29,8 +36,25 @@ function SignUp() {
     setInputsStates({ ...inputsState, [inputName]: newValue });
   }
 
+  const router = useRouter();
+
+  async function handleSignUp(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    try {
+      const res = await createUserWithEmailAndPassword(
+        inputsState.email!,
+        inputsState.password!
+      );
+      console.log(res);
+      router.push("/sign-in");
+      setInputsStates(initialInputsState);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <section>
+    <div>
       <div className="flex relative h-screen lg:mr-20">
         <div className="hidden md:block md:flex-1 h-full">
           <Image
@@ -43,7 +67,7 @@ function SignUp() {
           />
         </div>
         <div className="h-full flex items-center w-full md:w-[50%] px-4 md:px-8">
-          <form action="#" className="flex-1">
+          <form onSubmit={(e) => handleSignUp(e)} className="flex-1">
             <h3 className="text-2xl font-bold mb-1 capitalize">
               create new account
             </h3>
@@ -99,7 +123,6 @@ function SignUp() {
             <div className="mt-8">
               <ActionButton
                 title={"Sign Up"}
-                action={() => console.log(Object.values(inputsState))}
                 disabled={
                   !Object.values(inputsState).every((field, index) => {
                     if (index == 3) {
@@ -117,7 +140,7 @@ function SignUp() {
           </form>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

@@ -23,7 +23,7 @@ export default function page() {
   }
 
   return (
-    <section>
+    <div>
       <div className="flex relative h-screen lg:mr-20">
         <div className="hidden md:block md:flex-1 h-full">
           <Image
@@ -67,7 +67,7 @@ export default function page() {
 
               <ActionButton
                 title={"send OTP"}
-                action={() => console.log(inputsState)}
+                // action={() => console.log(inputsState)}
                 disabled={
                   !Object.values(inputsState).every((field) => field !== "")
                 }
@@ -76,6 +76,6 @@ export default function page() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

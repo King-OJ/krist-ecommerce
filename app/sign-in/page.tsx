@@ -3,16 +3,20 @@ import ActionButton from "@/components/ActionButton";
 import FormLabelAndInput from "@/components/FormLabelAndInput";
 import Image from "next/image";
 import Link from "next/link";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { AuthFormInput } from "../sign-up/page";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
 
 function SignIn() {
-  const inputs: AuthFormInput = {
+  const initialInputsState: AuthFormInput = {
     email: "",
     password: "",
   };
 
-  const [inputsState, setInputsStates] = useState<AuthFormInput>(inputs);
+  const [inputsState, setInputsStates] =
+    useState<AuthFormInput>(initialInputsState);
 
   function onInputsChange(e: ChangeEvent) {
     if (!e.target) return;
@@ -22,8 +26,26 @@ function SignIn() {
     setInputsStates({ ...inputsState, [inputName]: newValue });
   }
 
+  const router = useRouter();
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+
+  async function handleSignIn(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    try {
+      const res = await signInWithEmailAndPassword(
+        inputsState.email!,
+        inputsState.password!
+      );
+      console.log(res);
+      router.push("/home");
+      setInputsStates(initialInputsState);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <section>
+    <div>
       <div className="flex relative h-screen lg:mr-20">
         <div className="hidden md:block md:flex-1 h-full">
           <Image
@@ -36,7 +58,7 @@ function SignIn() {
           />
         </div>
         <div className="h-full flex items-center md:max-w-none md:mx-0 w-full md:w-[50%] px-4 md:px-8">
-          <form action="#" className="flex-1">
+          <form onSubmit={handleSignIn} className="flex-1">
             <h3 className="text-2xl font-bold mb-1 capitalize">
               welcome &#x1F44B;
             </h3>
@@ -76,7 +98,6 @@ function SignIn() {
             <div className="mt-8">
               <ActionButton
                 title={"login"}
-                action={() => console.log(inputsState)}
                 disabled={
                   !Object.values(inputsState).every((field, index) => {
                     if (index == 1) {
@@ -94,7 +115,7 @@ function SignIn() {
           </form>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
