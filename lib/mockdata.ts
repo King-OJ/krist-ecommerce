@@ -1,0 +1,86 @@
+import { productCategories, ProductCategory, productDetail } from "./utils";
+
+export const bestSellers: Array<productDetail> = [
+  {
+    id: "1",
+    title: "roadstar",
+    subtitle: "printed cotton t-shirt",
+    price: 38.0,
+    oldPrice: 40.0,
+    description: "xyz",
+    category: productCategories.casual,
+    productImgUrl: ["/fashion_img4.png"],
+  },
+  {
+    id: "2",
+    title: "allen sally",
+    subtitle: "women totured handheld bag",
+    price: 38.0,
+    oldPrice: 40.0,
+    description: "xyz",
+    category: productCategories.casual,
+    productImgUrl: ["/fashion_img5.png"],
+  },
+  {
+    id: "3",
+    title: "lious phillip sport",
+    subtitle: "polo collar t-shirt",
+    price: 38.0,
+    oldPrice: 40.0,
+    description: "xyz",
+    category: productCategories.casual,
+    productImgUrl: ["/fashion_img6.png"],
+  },
+  {
+    id: "4",
+    title: "trendyol",
+    subtitle: "floral embroided maxi dress",
+    price: 38.0,
+    oldPrice: 40.0,
+    description: "xyz",
+    category: productCategories.casual,
+    productImgUrl: ["/fashion_img.png"],
+  },
+  {
+    id: "5",
+    title: "trendyol",
+    subtitle: "floral embroided maxi dress",
+    price: 38.0,
+    oldPrice: 40.0,
+    description: "xyz",
+    category: productCategories.casual,
+    productImgUrl: ["/fashion_img8.png"],
+  },
+  {
+    id: "6",
+    title: "trendyol",
+    subtitle: "floral embroided maxi dress",
+    price: 38.0,
+    oldPrice: 40.0,
+    description: "xyz",
+    category: productCategories.casual,
+    productImgUrl: ["/fashion_img9.png"],
+  },
+];
+export const categories: Array<ProductCategory> = [
+  {
+    id: "1",
+    category: productCategories.casual,
+    imgUrl: "/fashion_img.png",
+  },
+  {
+    id: "2",
+    category: productCategories.western,
+    imgUrl: "/fashion_img1.png",
+  },
+  {
+    id: "3",
+    category: productCategories.ethnic,
+    imgUrl: "/fashion_img2.png",
+  },
+  {
+    id: "4",
+    category: productCategories.kids,
+    imgUrl: "/fashion_img3.png",
+  },
+];

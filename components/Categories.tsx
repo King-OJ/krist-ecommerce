@@ -1,11 +1,12 @@
 import { TbArrowLeft, TbArrowRight } from "react-icons/tb";
-import ProductCategoryCard from "./ProductCategoryCard";
+import CategoryCard from "./CategoryCard";
+import { categories } from "@/lib/mockdata";
 
 export default function Categories() {
   return (
     <section>
       <div className="px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="">
           <div className="flex justify-between items-center">
             <h4 className="text-2xl">Shop by Categories</h4>
             <div className="flex items-center space-x-4">
@@ -17,28 +18,11 @@ export default function Categories() {
               </button>
             </div>
           </div>
-          <div className="my-2">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              <ProductCategoryCard
-                title="casual wear"
-                imgUrl="/fashion_img.png"
-                productLink="/"
-              />
-              <ProductCategoryCard
-                title="western wear"
-                imgUrl="/fashion_img1.png"
-                productLink="/"
-              />
-              <ProductCategoryCard
-                title="ethnic wear"
-                imgUrl="/fashion_img2.png"
-                productLink="/"
-              />
-              <ProductCategoryCard
-                title="kids wear"
-                imgUrl="/fashion_img3.png"
-                productLink="/"
-              />
+          <div className="my-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
+              {categories.map((category) => {
+                return <CategoryCard key={category.id} category={category} />;
+              })}
             </div>
           </div>
         </div>

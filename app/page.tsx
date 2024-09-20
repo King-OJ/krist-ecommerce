@@ -1,3 +1,4 @@
+import BestSellers from "@/components/BestSellers";
 import Categories from "@/components/Categories";
 import Hero from "@/components/Hero";
 
@@ -6,6 +7,7 @@ const HomePage = () => {
     <>
       <Hero />
       <Categories />
+      <BestSellers />
     </>
   );
 };

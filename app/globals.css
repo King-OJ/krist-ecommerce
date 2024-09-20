@@ -20,5 +20,5 @@ input[type="number"] {
 }
 
 section {
-  @apply my-4 md:my-6;
+  @apply my-6 md:mt-8 md:mb-16;
 }
