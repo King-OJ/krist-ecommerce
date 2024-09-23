@@ -5,7 +5,7 @@ import landingImg from "../public/krist_landing_img2.png";
 export default function Hero() {
   return (
     <section>
-      <div className="px-4 sm:px-8">
+      <div>
         <div className="w-full bg-neutral-200 overflow-hidden relative">
           <div className="max-w-6xl mx-auto z-20 px-4 sm:px-8 md:px-12 gap-2 md:gap-6 flex flex-col-reverse md:flex-row items-center min-h-[calc(100vh-64px)]">
             <div className="flex-1 md:flex-none z-20 text-center md:text-left mb-4 md:mb-0">
@@ -17,7 +17,7 @@ export default function Hero() {
               </h1>
               <p className="uppercase text-base md:text-lg">upto 40% off</p>
               <div className="max-w-[260px] mt-2 md:mt-8">
-                <LinkButton title={"shop now"} icon={"arrow"} href={"/shop"} />
+                <LinkButton title={"shop now"} icon href={"/shop"} />
               </div>
             </div>
 

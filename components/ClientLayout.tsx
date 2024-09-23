@@ -6,12 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import AuthUserProvider from "@/context/AuthUserContext";
 import Navbar from "./Navbar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export type ModalContextType = {
   showModal: boolean;
   openModal: () => void;
-  closeModal: () => void;
+  closeModal: (route?: string) => void;
 };
 
 export const ModalContext = createContext<ModalContextType | null>(null);
@@ -22,9 +22,15 @@ const ClientLayout = ({
   children: React.ReactNode;
 }>) => {
   const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
-  function closeModal() {
+  function closeModal(route?: string) {
     setShowModal(false);
+    if (route) {
+      setTimeout(() => {
+        router.push(route);
+      }, 1000);
+    }
   }
   function openModal() {
     setShowModal(true);

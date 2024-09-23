@@ -28,7 +28,7 @@ export default function CategoryCard({
         </Link>
       </div>
       <p className="z-10 text-nowrap absolute top-2 capitalize left-[15%] text-5xl font-extrabold text-neutral-50 text-opacity-70">
-        {productCategories[category.category]}
+        {productCategories[category.category]} wears
       </p>
     </div>
   );

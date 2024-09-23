@@ -1,6 +1,10 @@
-import LinkButton from "./LinkButton";
+import ActionButton from "./ActionButton";
 
-export default function ModalBox({ onClose }: { onClose?: () => void }) {
+type ModalBoxProps = {
+  onClose: (route?: string) => void;
+};
+
+export default function ModalBox({ onClose }: ModalBoxProps) {
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 z-20">
       <div className="absolute top-0 bottom-0 right-0 -z-10 left-0 backdrop-filter brightness-90 backdrop-blur-sm "></div>
@@ -16,7 +20,10 @@ export default function ModalBox({ onClose }: { onClose?: () => void }) {
           </div>
 
           <div className="mt-6">
-            <LinkButton title={"Back to login"} href="sign-in" />
+            <ActionButton
+              title={"Back to login"}
+              action={() => onClose("/sign-in")}
+            />
           </div>
         </div>
       </div>

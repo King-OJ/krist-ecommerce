@@ -22,3 +22,25 @@ input[type="number"] {
 section {
   @apply my-6 md:mt-8 md:mb-16;
 }
+
+section > div:first-child,
+footer > div:first-child {
+  @apply px-4 sm:px-6 md:px-12 lg:px-16;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+h4,
+h5,
+h6 {
+  @apply capitalize;
+}

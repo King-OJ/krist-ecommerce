@@ -84,3 +84,46 @@ export const categories: Array<ProductCategory> = [
     imgUrl: "/fashion_img3.png",
   },
 ];
+
+export const testimonials = [
+  {
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibus",
+    author: "Leslie Alexander",
+    occupation: "model",
+    imgUrl: "/profile_img2.jpeg",
+    rating: 3,
+  },
+  {
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibus accusamus neque esse, accusantium dolorem laudantium iusto enim illum cum quasi?",
+    author: "Jacob Jones",
+    occupation: "co-founder",
+    imgUrl: "/profile_img2.jpeg",
+    rating: 5,
+  },
+  {
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam accusamus neque esse, accusantium dolorem laudantium iusto enim illum cum quasi?",
+    author: "Jenny Wilson",
+    occupation: "fashion designer",
+    imgUrl: "/profile_img2.jpeg",
+    rating: 2,
+  },
+];
+
+export const stories = [
+  {
+    link: "/",
+    imgUrl: "/krist_signIn_img.png",
+  },
+  {
+    link: "/",
+    imgUrl: "/krist_signUp_img.png",
+  },
+  {
+    link: "/",
+    imgUrl: "/krist_otp_img.png",
+  },
+  {
+    link: "/",
+    imgUrl: "/krist_signIn_img.png",
+  },
+];

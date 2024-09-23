@@ -38,7 +38,7 @@ function Navbar() {
 
   return (
     <div className="min-h-12 h-14 md:h-16">
-      <div className="flex w-full justify-end h-full pr-4">
+      <div className="flex w-full justify-end h-full">
         <nav className="flex items-center basis-2/3 justify-end md:justify-between pt-4">
           <ul className="md:flex hidden items-center space-x-4 font-medium text-sm lg:text-base lg:space-x-8 lg:font-normal">
             {links.map((link, index) => (
@@ -47,7 +47,7 @@ function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="pr-6">
+          <div className="pr-16">
             <ul className="space-x-3 lg:space-x-4 text-xl flex items-center ">
               <li className="font-semibold">
                 <TbSearch className="" />
