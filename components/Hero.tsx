@@ -8,7 +8,7 @@ export default function Hero() {
       <div>
         <div className="w-full bg-neutral-200 overflow-hidden relative">
           <div className="max-w-6xl mx-auto z-20 px-4 sm:px-8 md:px-12 gap-2 md:gap-6 flex flex-col-reverse md:flex-row items-center min-h-[calc(100vh-64px)]">
-            <div className="flex-1 md:flex-none z-20 text-center md:text-left mb-4 md:mb-0">
+            <div className="flex-1 md:flex-none z-20 text-center md:text-left pb-2 md:pb-0">
               <h3 className="capitalize text-base md:text-lg font-semibold">
                 classic exclusive
               </h3>
