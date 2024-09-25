@@ -100,7 +100,7 @@ export default function Footer() {
                 collection and product launches
               </p>
               <form action="#" className="mt-4">
-                <div className=" border flex items-center px-2 space-x-2 py-3 border-white rounded-lg w-full">
+                <div className=" border flex items-center px-2 space-x-2 py-2 border-white rounded-lg w-full">
                   <label htmlFor="email" className="text-lg">
                     <TbMail />
                   </label>
