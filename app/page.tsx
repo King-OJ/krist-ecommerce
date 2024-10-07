@@ -1,12 +1,29 @@
-import BestSellers from "@/components/BestSellers";
-import Categories from "@/components/Categories";
-import DealsOfTheMonth from "@/components/DealsOfTheMonth";
-import Footer from "@/components/Footer";
-import Hero from "@/components/Hero";
-import OurStories from "@/components/OurStories";
-import WhatCustomersSay from "@/components/WhatCustomersSay";
+import {
+  BestSellers,
+  Categories,
+  DealsOfTheMonth,
+  Footer,
+  Hero,
+  OurStories,
+  WhatCustomersSay,
+} from "@/components";
+import { clientConfig, serverConfig } from "@/config";
+import { getTokens } from "next-firebase-auth-edge";
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
-const HomePage = () => {
+const HomePage = async () => {
+  const tokens = await getTokens(cookies(), {
+    apiKey: clientConfig.apiKey,
+    cookieName: serverConfig.cookieName,
+    cookieSignatureKeys: serverConfig.cookieSignatureKeys,
+    serviceAccount: serverConfig.serviceAccount,
+  });
+
+  if (!tokens) {
+    notFound();
+  }
+
   return (
     <>
       <Hero />

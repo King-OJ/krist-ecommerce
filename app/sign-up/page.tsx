@@ -1,17 +1,18 @@
 "use client";
-import ActionButton from "@/components/ActionButton";
-import FormLabelAndInput from "@/components/FormLabelAndInput";
 import Image from "next/image";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from "@/lib/firebase";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import { ActionButton, FormLabelAndInput } from "@/components";
+import { app } from "@/firebase";
+import { validateEmail } from "@/lib/utils";
 
-export type AuthFormInput = {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  password?: string;
+type AuthFormInput = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmationPassword: string;
 };
 
 function SignUp() {
@@ -20,13 +21,13 @@ function SignUp() {
     lastName: "",
     email: "",
     password: "",
+    confirmationPassword: "",
   };
 
   const [inputsState, setInputsStates] =
     useState<AuthFormInput>(initialInputsState);
 
-  const [createUserWithEmailAndPassword] =
-    useCreateUserWithEmailAndPassword(auth);
+  const [confirmation, setConfirmation] = useState("");
 
   function onInputsChange(e: ChangeEvent) {
     if (!e.target) return;
@@ -38,18 +39,20 @@ function SignUp() {
 
   const router = useRouter();
 
-  async function handleSignUp(e: FormEvent<HTMLFormElement>) {
+  async function handleSignUp(e: FormEvent) {
     e.preventDefault();
+
     try {
       const res = await createUserWithEmailAndPassword(
-        inputsState.email!,
-        inputsState.password!
+        getAuth(app),
+        inputsState.email,
+        inputsState.password
       );
       console.log(res);
-      router.push("/sign-in");
       setInputsStates(initialInputsState);
+      router.push("/sign-in");
     } catch (error) {
-      console.log(error);
+      // setError((error as Error).message);
     }
   }
 
@@ -67,33 +70,35 @@ function SignUp() {
           />
         </div>
         <div className="h-full flex items-center w-full md:w-[50%] px-4 md:px-8">
-          <form onSubmit={(e) => handleSignUp(e)} className="flex-1">
+          <form onSubmit={handleSignUp} className="flex-1">
             <h3 className="text-2xl font-bold mb-1 capitalize">
               create new account
             </h3>
             <h6 className="text-grey text-xs lg:text-[14px] font-light mb-6">
               Please enter details
             </h6>
-            <FormLabelAndInput
-              name={"firstName"}
-              type={"text"}
-              placeholder={"Enter your first name"}
-              label="first name"
-              value={inputsState.firstName}
-              onChange={onInputsChange}
-            />
-            <FormLabelAndInput
-              name={"lastName"}
-              type={"text"}
-              placeholder={"Enter your last name"}
-              label="last name"
-              value={inputsState.lastName}
-              onChange={onInputsChange}
-            />
+            <div className="flex w-full space-x-4">
+              <FormLabelAndInput
+                name={"firstName"}
+                type={"text"}
+                placeholder={"Your first name "}
+                label="first name"
+                value={inputsState.firstName}
+                onChange={onInputsChange}
+              />
+              <FormLabelAndInput
+                name={"lastName"}
+                type={"text"}
+                placeholder={"Your last name"}
+                label="last name"
+                value={inputsState.lastName}
+                onChange={onInputsChange}
+              />
+            </div>
             <FormLabelAndInput
               name={"email"}
               type={"email"}
-              placeholder={"Enter your email"}
+              placeholder={"Your email"}
               label="email address"
               value={inputsState.email}
               onChange={onInputsChange}
@@ -106,6 +111,15 @@ function SignUp() {
               value={inputsState.password}
               onChange={onInputsChange}
             />
+            <FormLabelAndInput
+              name={"confirmationPassword"}
+              type={"password"}
+              placeholder={"Re-enter your password"}
+              label="confirm password"
+              value={inputsState.confirmationPassword}
+              onChange={onInputsChange}
+            />
+
             <div className="flex w-full justify-between text-xs">
               <div className="flex items-center space-x-2 font-light">
                 <input
@@ -125,8 +139,15 @@ function SignUp() {
                 title={"Sign Up"}
                 disabled={
                   !Object.values(inputsState).every((field, index) => {
-                    if (index == 3) {
+                    if (index == 2) {
                       if (field.length < 6) {
+                        return false;
+                      } else {
+                        return true;
+                      }
+                    }
+                    if (index == 3) {
+                      if (field !== inputsState.password) {
                         return false;
                       } else {
                         return true;

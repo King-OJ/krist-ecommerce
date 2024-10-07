@@ -1,7 +1,7 @@
 import { TbShoppingBag, TbHeart, TbSearch } from "react-icons/tb";
 import LinkButton from "./LinkButton";
-import { useAuth } from "@/context/AuthUserContext";
 import ActionButton from "./ActionButton";
+import { useSignOut } from "react-firebase-hooks/auth";
 
 type Link = {
   title: string;
@@ -32,9 +32,17 @@ function Navbar() {
       href: "/contact_us",
     },
   ];
+  const user = true;
+  // const [signOutUser] = useSignOut(auth);
 
-  const { authUser: user } = useAuth();
-  // console.log(authUser);
+  // async function handleSignOut() {
+  //   try {
+  //     await useSignOut(auth);
+  //     console.log("User signed out");
+  //   } catch (error) {
+  //     console.error("Error signing out:", error);
+  //   }
+  // }
 
   return (
     <div className="min-h-12 h-14 md:h-16">

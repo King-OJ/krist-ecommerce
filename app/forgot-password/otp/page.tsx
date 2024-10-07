@@ -1,4 +1,4 @@
-import OTPInputs from "@/components/OTPInputs";
+import { OTPInputs } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
 import { TfiAngleLeft } from "react-icons/tfi";

@@ -1,11 +1,10 @@
 "use client";
-import ActionButton from "@/components/ActionButton";
-import FormLabelAndInput from "@/components/FormLabelAndInput";
 import Image from "next/image";
 import Link from "next/link";
 import { AuthFormInput } from "../sign-up/page";
 import { ChangeEvent, useState } from "react";
 import { TfiAngleLeft } from "react-icons/tfi";
+import { ActionButton, FormLabelAndInput } from "@/components";
 
 export default function page() {
   const inputs: AuthFormInput = {

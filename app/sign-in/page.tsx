@@ -1,19 +1,23 @@
 "use client";
-import ActionButton from "@/components/ActionButton";
-import FormLabelAndInput from "@/components/FormLabelAndInput";
 import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { AuthFormInput } from "../sign-up/page";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
-import { auth } from "@/lib/firebase";
+import { ActionButton, FormLabelAndInput } from "@/components";
+
+type AuthFormInput = {
+  email: string;
+  password: string;
+};
 
 function SignIn() {
   const initialInputsState: AuthFormInput = {
     email: "",
     password: "",
   };
+
+  const [error, setError] = useState("");
 
   const [inputsState, setInputsStates] =
     useState<AuthFormInput>(initialInputsState);
@@ -27,21 +31,24 @@ function SignIn() {
   }
 
   const router = useRouter();
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
 
-  async function handleSignIn(e: FormEvent<HTMLFormElement>) {
+  async function handleSignIn(e: FormEvent) {
     e.preventDefault();
-    try {
-      const res = await signInWithEmailAndPassword(
-        inputsState.email!,
-        inputsState.password!
-      );
-      console.log(res);
-      router.push("/home");
-      setInputsStates(initialInputsState);
-    } catch (error) {
-      console.log(error);
+    setError("");
+    if (inputsState.email.length < 5) {
+      setError("Invalid Email");
     }
+    // try {
+    //   const res = await signInWithEmailAndPassword(
+    //     inputsState.email!,
+    //     inputsState.password!
+    //   );
+    //   console.log(res);
+    //   router.push("/home");
+    //   setInputsStates(initialInputsState);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   return (

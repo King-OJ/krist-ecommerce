@@ -41,7 +41,7 @@ export default function Footer() {
                 />
                 <h3 className="text-3xl">Krist</h3>
               </Link>
-              <ul>
+              <ul className="text-sm">
                 <li className="mt-6">
                   <a
                     href="tel:+2348063824618"
@@ -72,7 +72,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            <div>
+            <div className="text-sm">
               <h6 className="font-semibold mb-6">information</h6>
               <ul className="space-y-4 capitalize font-light">
                 <li>my account</li>
@@ -82,7 +82,7 @@ export default function Footer() {
                 <li>checkout</li>
               </ul>
             </div>
-            <div>
+            <div className="text-sm">
               <h6 className="font-semibold mb-6">service</h6>
               <ul className="space-y-4 capitalize font-light">
                 <li>about us</li>
@@ -93,7 +93,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            <div className="">
+            <div className="text-sm">
               <h6 className="font-semibold mb-6">subscribe</h6>
               <p className="text-sm max-w-80">
                 Enter your email below to be the first to know about new
