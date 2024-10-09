@@ -2,24 +2,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import { ActionButton, FormLabelAndInput } from "@/components";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { app } from "@/firebase";
+import { toast } from "react-toastify";
 
 type AuthFormInput = {
   email: string;
   password: string;
 };
 
-function SignIn() {
+function Login() {
   const initialInputsState: AuthFormInput = {
     email: "",
     password: "",
   };
 
-  const [error, setError] = useState("");
-
-  const [inputsState, setInputsStates] =
+  const [formInputs, setInputsStates] =
     useState<AuthFormInput>(initialInputsState);
 
   function onInputsChange(e: ChangeEvent) {
@@ -27,28 +27,37 @@ function SignIn() {
     const target = e.target as HTMLInputElement;
     const newValue = target.value;
     const inputName = target.name;
-    setInputsStates({ ...inputsState, [inputName]: newValue });
+    setInputsStates({ ...formInputs, [inputName]: newValue });
   }
 
   const router = useRouter();
 
   async function handleSignIn(e: FormEvent) {
     e.preventDefault();
-    setError("");
-    if (inputsState.email.length < 5) {
-      setError("Invalid Email");
+
+    try {
+      const credential = await signInWithEmailAndPassword(
+        getAuth(app),
+        formInputs.email,
+        formInputs.password
+      );
+
+      const idToken = await credential.user.getIdToken();
+
+      await fetch("/api/login", {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+
+      toast("Login Successful! Redirecting");
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    } catch (error) {
+      toast((error as Error).message);
+      console.log(error);
     }
-    // try {
-    //   const res = await signInWithEmailAndPassword(
-    //     inputsState.email!,
-    //     inputsState.password!
-    //   );
-    //   console.log(res);
-    //   router.push("/home");
-    //   setInputsStates(initialInputsState);
-    // } catch (error) {
-    //   console.log(error);
-    // }
   }
 
   return (
@@ -77,7 +86,7 @@ function SignIn() {
               type={"email"}
               placeholder={"Enter your email"}
               label="email address"
-              value={inputsState.email}
+              value={formInputs.email}
               onChange={onInputsChange}
             />
             <FormLabelAndInput
@@ -85,10 +94,10 @@ function SignIn() {
               type={"password"}
               placeholder={"Enter your password"}
               label="password"
-              value={inputsState.password}
+              value={formInputs.password}
               onChange={onInputsChange}
             />
-            <div className="flex w-full justify-between text-xs">
+            <div className="flex w-full justify-between text-xs mt-4">
               <div className="flex items-center space-x-2 font-light">
                 <input
                   id="rememberMe"
@@ -106,7 +115,7 @@ function SignIn() {
               <ActionButton
                 title={"login"}
                 disabled={
-                  !Object.values(inputsState).every((field, index) => {
+                  !Object.values(formInputs).every((field, index) => {
                     if (index == 1) {
                       if (field.length < 6) {
                         return false;
@@ -126,4 +135,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default Login;

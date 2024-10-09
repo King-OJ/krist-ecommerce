@@ -4,8 +4,9 @@ import { createContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import Navbar from "./Navbar";
 import ModalBox from "./ModalBox";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export type ModalContextType = {
   showModal: boolean;
@@ -36,8 +37,8 @@ const ClientLayout = ({
   }
   const pathname = usePathname();
   const noNavbar = [
-    "/sign-in",
-    "/sign-up",
+    "/register",
+    "/login",
     "/forgot-password",
     "/forgot-password/otp",
   ].includes(pathname);
@@ -58,10 +59,10 @@ const ClientLayout = ({
           />
           <h3 className="text-2xl">Krist</h3>
         </Link>
-        {noNavbar ? null : <Navbar />}
         {children}
         {showModal && <ModalBox onClose={closeModal} />}
       </ModalContext.Provider>
+      <ToastContainer />
     </main>
   );
 };

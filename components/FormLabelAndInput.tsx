@@ -44,7 +44,7 @@ function FormLabelAndInput({
     timeoutVal = 1000;
 
   return (
-    <div className="mb-4 w-full block">
+    <div className="mt-4 w-full block">
       <label
         htmlFor={name}
         className="capitalize block text-sm font-normal mb-1"
@@ -61,8 +61,10 @@ function FormLabelAndInput({
         required
         type={type}
         placeholder={placeholder}
-        className={`block py-2 text-sm placeholder:text-[12px] ${
-          name == "fullName" && "capitalize"
+        className={`block py-2 text-sm placeholder:text-[12px]
+        ${name == "lastName" && "capitalize"}
+        ${
+          name == "firstName" && "capitalize"
         } font-normal text-black outline-none border ${
           error ? "border-red-500" : "border-black"
         } rounded-lg px-2 w-full`}
@@ -74,9 +76,10 @@ function FormLabelAndInput({
                 setError("Please provide a valid email");
               }
             } else if (type == "password") {
-              if (value.length > 2 && value.length < 6) {
-                setError("Password length must be atleast 6 characters");
-              }
+              // if (value.length > 2 && value.length < 6) {
+              //   setError("Password length must be atleast 6 characters");
+              // }
+              return;
             } else {
               if (value && value.length < 3) {
                 setError("Please provide full name");

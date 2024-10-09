@@ -5,6 +5,7 @@ import {
   Footer,
   Hero,
   OurStories,
+  Navbar,
   WhatCustomersSay,
 } from "@/components";
 import { clientConfig, serverConfig } from "@/config";
@@ -26,6 +27,7 @@ const HomePage = async () => {
 
   return (
     <>
+      <Navbar email={tokens?.decodedToken.email} />
       <Hero />
       <Categories />
       <BestSellers />

@@ -4,7 +4,7 @@ import { clientConfig, serverConfig } from "./config";
 
 export async function middleware(request: NextRequest) {
   return authMiddleware(request, {
-    loginPath: "/api/sign-in",
+    loginPath: "/api/login",
     logoutPath: "/api/logout",
     apiKey: clientConfig.apiKey,
     cookieSignatureKeys: serverConfig.cookieSignatureKeys,
@@ -15,5 +15,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/((?!_next|api|.*\\.).*)", "/api/sign-in", "/api/logout"],
+  matcher: ["/", "/((?!_next|api|.*\\.).*)", "/api/login", "/api/logout"],
 };

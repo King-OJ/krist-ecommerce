@@ -1,17 +1,20 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { AuthFormInput } from "../sign-up/page";
 import { ChangeEvent, useState } from "react";
 import { TfiAngleLeft } from "react-icons/tfi";
 import { ActionButton, FormLabelAndInput } from "@/components";
 
+type FormInputType = {
+  email: string;
+};
+
 export default function page() {
-  const inputs: AuthFormInput = {
+  const inputs: FormInputType = {
     email: "",
   };
 
-  const [inputsState, setInputsStates] = useState<AuthFormInput>(inputs);
+  const [inputsState, setInputsStates] = useState<FormInputType>(inputs);
 
   function onInputsChange(e: ChangeEvent) {
     if (!e.target) return;
@@ -51,7 +54,7 @@ export default function page() {
               <h3 className="text-2xl font-bold mb-1 capitalize">
                 forgot password
               </h3>
-              <h6 className="text-grey text-xs lg:text-[14px] font-light mb-6">
+              <h6 className="text-grey text-xs lg:text-[14px] font-light mb-2">
                 Enter your registered email address. We will send you a code to
                 reset your password.
               </h6>
@@ -63,14 +66,15 @@ export default function page() {
                 value={inputsState.email}
                 onChange={onInputsChange}
               />
-
-              <ActionButton
-                title={"send OTP"}
-                // action={() => console.log(inputsState)}
-                disabled={
-                  !Object.values(inputsState).every((field) => field !== "")
-                }
-              />
+              <div className="mt-6">
+                <ActionButton
+                  title={"send OTP"}
+                  // action={() => console.log(inputsState)}
+                  disabled={
+                    !Object.values(inputsState).every((field) => field !== "")
+                  }
+                />
+              </div>
             </form>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { ActionButton, FormLabelAndInput } from "@/components";
 import { app } from "@/firebase";
-import { validateEmail } from "@/lib/utils";
+import { toast } from "react-toastify";
 
 type AuthFormInput = {
   firstName: string;
@@ -15,7 +15,7 @@ type AuthFormInput = {
   confirmationPassword: string;
 };
 
-function SignUp() {
+function Register() {
   const initialInputsState: AuthFormInput = {
     firstName: "",
     lastName: "",
@@ -24,17 +24,15 @@ function SignUp() {
     confirmationPassword: "",
   };
 
-  const [inputsState, setInputsStates] =
+  const [formInputs, setFormInputs] =
     useState<AuthFormInput>(initialInputsState);
-
-  const [confirmation, setConfirmation] = useState("");
 
   function onInputsChange(e: ChangeEvent) {
     if (!e.target) return;
     const target = e.target as HTMLInputElement;
     const newValue = target.value;
     const inputName = target.name;
-    setInputsStates({ ...inputsState, [inputName]: newValue });
+    setFormInputs({ ...formInputs, [inputName]: newValue });
   }
 
   const router = useRouter();
@@ -42,17 +40,26 @@ function SignUp() {
   async function handleSignUp(e: FormEvent) {
     e.preventDefault();
 
+    if (formInputs.password !== formInputs.confirmationPassword) {
+      toast("Passwords don't match");
+      return;
+    }
+
     try {
       const res = await createUserWithEmailAndPassword(
         getAuth(app),
-        inputsState.email,
-        inputsState.password
+        formInputs.email,
+        formInputs.password
       );
       console.log(res);
-      setInputsStates(initialInputsState);
-      router.push("/sign-in");
+      setFormInputs(initialInputsState);
+      toast("You're signed up! Redirecting to login.");
+      setTimeout(() => {
+        router.push("/login");
+      }, 1000);
     } catch (error) {
-      // setError((error as Error).message);
+      toast((error as Error).message);
+      console.log(error);
     }
   }
 
@@ -74,7 +81,7 @@ function SignUp() {
             <h3 className="text-2xl font-bold mb-1 capitalize">
               create new account
             </h3>
-            <h6 className="text-grey text-xs lg:text-[14px] font-light mb-6">
+            <h6 className="text-grey text-xs lg:text-[14px] font-light mb-2">
               Please enter details
             </h6>
             <div className="flex w-full space-x-4">
@@ -83,7 +90,7 @@ function SignUp() {
                 type={"text"}
                 placeholder={"Your first name "}
                 label="first name"
-                value={inputsState.firstName}
+                value={formInputs.firstName}
                 onChange={onInputsChange}
               />
               <FormLabelAndInput
@@ -91,7 +98,7 @@ function SignUp() {
                 type={"text"}
                 placeholder={"Your last name"}
                 label="last name"
-                value={inputsState.lastName}
+                value={formInputs.lastName}
                 onChange={onInputsChange}
               />
             </div>
@@ -100,27 +107,33 @@ function SignUp() {
               type={"email"}
               placeholder={"Your email"}
               label="email address"
-              value={inputsState.email}
+              value={formInputs.email}
               onChange={onInputsChange}
             />
-            <FormLabelAndInput
-              name={"password"}
-              type={"password"}
-              placeholder={"Enter your password"}
-              label="password"
-              value={inputsState.password}
-              onChange={onInputsChange}
-            />
+            <div>
+              <FormLabelAndInput
+                name={"password"}
+                type={"password"}
+                placeholder={"Enter your password"}
+                label="password"
+                value={formInputs.password}
+                onChange={onInputsChange}
+              />
+              <p className="text-xs mt-1">
+                Password length must be atleast 6 characters
+              </p>
+            </div>
+
             <FormLabelAndInput
               name={"confirmationPassword"}
               type={"password"}
               placeholder={"Re-enter your password"}
               label="confirm password"
-              value={inputsState.confirmationPassword}
+              value={formInputs.confirmationPassword}
               onChange={onInputsChange}
             />
 
-            <div className="flex w-full justify-between text-xs">
+            <div className="flex w-full justify-between text-xs mt-4">
               <div className="flex items-center space-x-2 font-light">
                 <input
                   id="rememberMe"
@@ -138,7 +151,7 @@ function SignUp() {
               <ActionButton
                 title={"Sign Up"}
                 disabled={
-                  !Object.values(inputsState).every((field, index) => {
+                  !Object.values(formInputs).every((field, index) => {
                     if (index == 2) {
                       if (field.length < 6) {
                         return false;
@@ -147,7 +160,7 @@ function SignUp() {
                       }
                     }
                     if (index == 3) {
-                      if (field !== inputsState.password) {
+                      if (field !== formInputs.password) {
                         return false;
                       } else {
                         return true;
@@ -165,4 +178,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Register;

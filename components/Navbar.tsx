@@ -1,7 +1,11 @@
+"use client";
 import { TbShoppingBag, TbHeart, TbSearch } from "react-icons/tb";
 import LinkButton from "./LinkButton";
 import ActionButton from "./ActionButton";
-import { useSignOut } from "react-firebase-hooks/auth";
+import { useRouter } from "next/navigation";
+import { getAuth, signOut } from "firebase/auth";
+import { app } from "@/firebase";
+import { toast } from "react-toastify";
 
 type Link = {
   title: string;
@@ -9,7 +13,11 @@ type Link = {
   action?: () => void;
 };
 
-function Navbar() {
+interface NavbarProps {
+  email?: string;
+}
+
+function Navbar({ email }: NavbarProps) {
   const links: Link[] = [
     {
       title: "home",
@@ -32,17 +40,19 @@ function Navbar() {
       href: "/contact_us",
     },
   ];
-  const user = true;
-  // const [signOutUser] = useSignOut(auth);
 
-  // async function handleSignOut() {
-  //   try {
-  //     await useSignOut(auth);
-  //     console.log("User signed out");
-  //   } catch (error) {
-  //     console.error("Error signing out:", error);
-  //   }
-  // }
+  const router = useRouter();
+
+  async function handleLogout() {
+    await signOut(getAuth(app));
+
+    await fetch("/api/logout");
+
+    toast("Logout Successfully!");
+    setTimeout(() => {
+      router.push("/login");
+    }, 1000);
+  }
 
   return (
     <div className="min-h-12 h-14 md:h-16">
@@ -66,10 +76,10 @@ function Navbar() {
               <li className="x">
                 <TbShoppingBag />
               </li>
-              {user ? (
-                <ActionButton title={"sign out"} />
+              {email ? (
+                <ActionButton title={"Log out"} action={handleLogout} />
               ) : (
-                <LinkButton title={"login"} href="/sign-in" />
+                <LinkButton title={"login"} href="/login" />
               )}
             </ul>
           </div>
