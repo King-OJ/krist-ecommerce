@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import ModalBox from "./ModalBox";
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export type ModalContextType = {
@@ -62,7 +62,7 @@ const ClientLayout = ({
         {children}
         {showModal && <ModalBox onClose={closeModal} />}
       </ModalContext.Provider>
-      <ToastContainer />
+      <ToastContainer theme="dark" transition={Slide} />
     </main>
   );
 };

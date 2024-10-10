@@ -1,7 +1,7 @@
 "use client";
 
 import { validateEmail } from "@/lib/utils";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 function FormLabelAndInput({
   name,
@@ -10,35 +10,17 @@ function FormLabelAndInput({
   label,
   value,
   onChange,
+  password,
 }: {
   name: string;
   type: string;
   label: string;
   placeholder: string;
   value: string;
+  password?: string;
   onChange: (e: ChangeEvent) => void;
 }) {
   const [error, setError] = useState("");
-
-  // useEffect(() => {
-  // if (type == "email") {
-  //   if (value.length > 6 && !validateEmail(value)) {
-  //     setError("Please provide a valid email");
-  //   }
-  // } else if (type == "password") {
-  //   if (value.length > 2 && value.length < 6) {
-  //     setError("Password length must be atleast 6 characters");
-  //   }
-  // } else {
-  //   if (value && value.length < 3) {
-  //     setError("Please provide full information");
-  //   }
-  // }
-
-  //   return () => {
-  //     setError("");
-  //   };
-  // }, [value]);
 
   let timer: number | undefined,
     timeoutVal = 1000;
@@ -71,14 +53,14 @@ function FormLabelAndInput({
         onKeyUp={() => {
           window.clearTimeout(timer);
           timer = window.setTimeout(() => {
-            if (type == "email") {
+            if (name == "email") {
               if (value.length > 5 && !validateEmail(value)) {
                 setError("Please provide a valid email");
               }
-            } else if (type == "password") {
-              // if (value.length > 2 && value.length < 6) {
-              //   setError("Password length must be atleast 6 characters");
-              // }
+            } else if (name == "confirmationPassword") {
+              if (value !== password) {
+                setError("Passwords do not match");
+              }
               return;
             } else {
               if (value && value.length < 3) {

@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import { ActionButton, FormLabelAndInput } from "@/components";
 import { app } from "@/firebase";
 import { toast } from "react-toastify";
+import db from "@/lib/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { FirebaseError } from "firebase/app";
 
 type AuthFormInput = {
   firstName: string;
@@ -26,6 +29,7 @@ function Register() {
 
   const [formInputs, setFormInputs] =
     useState<AuthFormInput>(initialInputsState);
+  const [isLoading, setIsLoading] = useState(false);
 
   function onInputsChange(e: ChangeEvent) {
     if (!e.target) return;
@@ -37,29 +41,51 @@ function Register() {
 
   const router = useRouter();
 
+  async function createUser(userId: string) {
+    const userCollection = collection(db, "users");
+    const userData = {
+      firstName: formInputs.firstName,
+      lastName: formInputs.lastName,
+      email: formInputs.email,
+    };
+
+    const docRef = doc(userCollection, userId);
+    return await setDoc(docRef, userData);
+  }
+
   async function handleSignUp(e: FormEvent) {
     e.preventDefault();
 
-    if (formInputs.password !== formInputs.confirmationPassword) {
-      toast("Passwords don't match");
+    if (!Object.keys(formInputs).every((key) => key !== "")) {
+      toast.error("Please fill out all fields!");
       return;
     }
-
+    setIsLoading(false);
     try {
+      setIsLoading(true);
       const res = await createUserWithEmailAndPassword(
         getAuth(app),
         formInputs.email,
         formInputs.password
       );
-      console.log(res);
+      await createUser(res.user.uid);
+      setIsLoading(false);
       setFormInputs(initialInputsState);
-      toast("You're signed up! Redirecting to login.");
+      toast.success("You're signed up! Redirecting to login.");
       setTimeout(() => {
         router.push("/login");
       }, 1000);
-    } catch (error) {
-      toast((error as Error).message);
-      console.log(error);
+    } catch (error: any) {
+      if (error as FirebaseError) {
+        toast.error(
+          (error.code as string).substring(5).charAt(0).toLocaleUpperCase() +
+            (error.code as string).substring(5).slice(1)
+        );
+      } else {
+        toast.error((error as Error).message);
+      }
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -130,6 +156,7 @@ function Register() {
               placeholder={"Re-enter your password"}
               label="confirm password"
               value={formInputs.confirmationPassword}
+              password={formInputs.password}
               onChange={onInputsChange}
             />
 
@@ -149,26 +176,8 @@ function Register() {
 
             <div className="mt-8">
               <ActionButton
-                title={"Sign Up"}
-                disabled={
-                  !Object.values(formInputs).every((field, index) => {
-                    if (index == 2) {
-                      if (field.length < 6) {
-                        return false;
-                      } else {
-                        return true;
-                      }
-                    }
-                    if (index == 3) {
-                      if (field !== formInputs.password) {
-                        return false;
-                      } else {
-                        return true;
-                      }
-                    }
-                    return field !== "";
-                  })
-                }
+                title={isLoading ? "Creating" : "Create Account"}
+                disabled={isLoading}
               />
             </div>
           </form>

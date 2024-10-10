@@ -6,7 +6,10 @@ import { useRouter } from "next/navigation";
 import { ActionButton, FormLabelAndInput } from "@/components";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "@/firebase";
-import { toast } from "react-toastify";
+import { Bounce, Slide, toast } from "react-toastify";
+import db from "@/lib/firestore";
+import { doc, getDoc } from "firebase/firestore";
+import { FirebaseError } from "firebase/app";
 
 type AuthFormInput = {
   email: string;
@@ -21,6 +24,7 @@ function Login() {
 
   const [formInputs, setInputsStates] =
     useState<AuthFormInput>(initialInputsState);
+  const [isLoading, setIsLoading] = useState(false);
 
   function onInputsChange(e: ChangeEvent) {
     if (!e.target) return;
@@ -32,15 +36,27 @@ function Login() {
 
   const router = useRouter();
 
+  async function fetchUserInfo(userId: string) {
+    const docRef = doc(db, "users", userId);
+    return await getDoc(docRef);
+  }
+
   async function handleSignIn(e: FormEvent) {
     e.preventDefault();
-
+    if (formInputs.email == "" || formInputs.password == "") {
+      toast.error("Please fill out all fields!");
+      return;
+    }
+    setIsLoading(false);
     try {
+      setIsLoading(true);
       const credential = await signInWithEmailAndPassword(
         getAuth(app),
         formInputs.email,
         formInputs.password
       );
+
+      const docSnap = await fetchUserInfo(credential.user.uid);
 
       const idToken = await credential.user.getIdToken();
 
@@ -50,13 +66,25 @@ function Login() {
         },
       });
 
-      toast("Login Successful! Redirecting");
-      setTimeout(() => {
-        router.push("/");
-      }, 1000);
-    } catch (error) {
-      toast((error as Error).message);
-      console.log(error);
+      toast.success(
+        `Login Successful! Welcome ${
+          docSnap.data()?.firstName.charAt(0).toUpperCase() +
+          docSnap.data()?.firstName.slice(1)
+        }`
+      );
+
+      router.push("/");
+    } catch (error: any) {
+      if (error as FirebaseError) {
+        toast.error(
+          (error.code as string).substring(5).charAt(0).toLocaleUpperCase() +
+            (error.code as string).substring(5).slice(1)
+        );
+      } else {
+        toast.error((error as Error).message);
+      }
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -113,19 +141,8 @@ function Login() {
             </div>
             <div className="mt-8">
               <ActionButton
-                title={"login"}
-                disabled={
-                  !Object.values(formInputs).every((field, index) => {
-                    if (index == 1) {
-                      if (field.length < 6) {
-                        return false;
-                      } else {
-                        return true;
-                      }
-                    }
-                    return field !== "";
-                  })
-                }
+                title={isLoading ? "logging in" : "login"}
+                disabled={isLoading}
               />
             </div>
           </form>

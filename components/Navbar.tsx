@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "@/firebase";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 type Link = {
   title: string;
@@ -41,23 +42,34 @@ function Navbar({ email }: NavbarProps) {
     },
   ];
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   async function handleLogout() {
-    await signOut(getAuth(app));
+    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      await signOut(getAuth(app));
 
-    await fetch("/api/logout");
+      await fetch("/api/logout");
 
-    toast("Logout Successfully!");
-    setTimeout(() => {
+      setIsLoading(false);
+
+      toast.warning("You're logged out!");
+
       router.push("/login");
-    }, 1000);
+    } catch (error) {
+      toast((error as Error).message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <div className="min-h-12 h-14 md:h-16">
       <div className="flex w-full justify-end h-full">
-        <nav className="flex items-center basis-2/3 justify-end md:justify-between pt-4">
+        <nav className="flex items-center basis-4/5 justify-end md:justify-between pt-4">
           <ul className="md:flex hidden items-center space-x-4 font-medium text-sm lg:text-base lg:space-x-8 lg:font-normal">
             {links.map((link, index) => (
               <li key={index} className="capitalize">
@@ -77,7 +89,11 @@ function Navbar({ email }: NavbarProps) {
                 <TbShoppingBag />
               </li>
               {email ? (
-                <ActionButton title={"Log out"} action={handleLogout} />
+                <ActionButton
+                  title={isLoading ? "logging out" : "log out"}
+                  action={handleLogout}
+                  disabled={isLoading}
+                />
               ) : (
                 <LinkButton title={"login"} href="/login" />
               )}
