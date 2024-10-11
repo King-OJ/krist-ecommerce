@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { TfiAngleLeft } from "react-icons/tfi";
 import { ActionButton, FormLabelAndInput } from "@/components";
 
@@ -15,6 +15,7 @@ export default function page() {
   };
 
   const [inputsState, setInputsStates] = useState<FormInputType>(inputs);
+  const [isLoading, setIsLoading] = useState(false);
 
   function onInputsChange(e: ChangeEvent) {
     if (!e.target) return;
@@ -22,6 +23,10 @@ export default function page() {
     const newValue = target.value;
     const inputName = target.name;
     setInputsStates({ ...inputsState, [inputName]: newValue });
+  }
+
+  async function sendOTP(e: FormEvent) {
+    e.preventDefault();
   }
 
   return (
@@ -50,7 +55,7 @@ export default function page() {
                 Back
               </Link>
             </div>
-            <form action="#" className="w-full">
+            <form onSubmit={sendOTP} className="w-full">
               <h3 className="text-2xl font-bold mb-1 capitalize">
                 forgot password
               </h3>
@@ -68,11 +73,8 @@ export default function page() {
               />
               <div className="mt-6">
                 <ActionButton
-                  title={"send OTP"}
-                  // action={() => console.log(inputsState)}
-                  disabled={
-                    !Object.values(inputsState).every((field) => field !== "")
-                  }
+                  title={isLoading ? "sending OTP" : "send OTP"}
+                  disabled={isLoading}
                 />
               </div>
             </form>

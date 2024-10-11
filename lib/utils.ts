@@ -1,3 +1,6 @@
+import { doc, getDoc } from "firebase/firestore";
+import db from "./firestore";
+
 export enum productCategories {
   casual,
   western,
@@ -29,3 +32,8 @@ export const validateEmail = (email: string) => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 };
+
+export async function fetchUserInfo(userId: string) {
+  const docRef = doc(db, "users", userId);
+  return await getDoc(docRef);
+}

@@ -6,6 +6,7 @@ import {
 import { NextRequest, NextResponse } from "next/server";
 import { clientConfig, serverConfig } from "./config";
 import { InvalidTokenReason } from "next-firebase-auth-edge/lib/auth/error";
+import { toast } from "react-toastify";
 
 const PUBLIC_PATHS = [
   "/register",
@@ -13,6 +14,9 @@ const PUBLIC_PATHS = [
   "/forgot-password",
   "/forgot-password/otp",
 ];
+const PRIVATE_PATHS = ["/checkout", "/profile"];
+
+const HomePath = "/";
 
 export async function middleware(request: NextRequest) {
   return authMiddleware(request, {
@@ -34,13 +38,16 @@ export async function middleware(request: NextRequest) {
         },
       });
     },
-    // handleInvalidToken: async (reason: InvalidTokenReason) => {
-    //   console.info("Missing or malformed credentials", { reason });
-    //   return redirectToLogin(request, {
-    //     path: "/login",
-    //     publicPaths: PUBLIC_PATHS,
-    //   });
-    // },
+    handleInvalidToken: async (reason: InvalidTokenReason) => {
+      if (PRIVATE_PATHS.includes(request.nextUrl.pathname)) {
+        return redirectToLogin(request, {
+          path: "/login",
+          publicPaths: PUBLIC_PATHS,
+        });
+      }
+
+      return NextResponse.next();
+    },
   });
 }
 

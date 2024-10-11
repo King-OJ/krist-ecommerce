@@ -6,10 +6,11 @@ import { useRouter } from "next/navigation";
 import { ActionButton, FormLabelAndInput } from "@/components";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "@/firebase";
-import { Bounce, Slide, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import db from "@/lib/firestore";
 import { doc, getDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
+import { fetchUserInfo } from "@/lib/utils";
 
 type AuthFormInput = {
   email: string;
@@ -35,11 +36,6 @@ function Login() {
   }
 
   const router = useRouter();
-
-  async function fetchUserInfo(userId: string) {
-    const docRef = doc(db, "users", userId);
-    return await getDoc(docRef);
-  }
 
   async function handleSignIn(e: FormEvent) {
     e.preventDefault();
@@ -74,6 +70,7 @@ function Login() {
       );
 
       router.push("/");
+      router.refresh();
     } catch (error: any) {
       if (error as FirebaseError) {
         toast.error(

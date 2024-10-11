@@ -20,7 +20,7 @@ input[type="number"] {
 }
 
 section {
-  @apply my-6 md:mt-8 md:mb-16;
+  @apply my-6 md:my-12;
 }
 
 section > div:first-child,

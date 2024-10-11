@@ -15,6 +15,7 @@ export default function OTPInputs({ length = 5, onComplete }: OTPInputProps) {
   const inputRef = useRef<HTMLInputElement[]>(Array(length).fill(null));
 
   const [OTP, setOTP] = useState<string[]>(Array(length).fill(""));
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleChange(input: string, index: number) {
     let OTPvalues = [...OTP];
@@ -35,6 +36,7 @@ export default function OTPInputs({ length = 5, onComplete }: OTPInputProps) {
               key={index}
               type="string"
               maxLength={1}
+              required
               value={OTP[index]}
               onInput={() => {
                 const value = OTP[index];
@@ -57,8 +59,8 @@ export default function OTPInputs({ length = 5, onComplete }: OTPInputProps) {
       </div>
       <div className="mt-8">
         <ActionButton
-          title={"verify"}
-          disabled={!OTP.every((input) => input !== "")}
+          title={isLoading ? "verifying" : "verify"}
+          disabled={isLoading}
           action={openModal}
         />
       </div>

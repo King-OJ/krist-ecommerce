@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { TbStar } from "react-icons/tb";
+import RoundImgAndTitle from "./RoundImg";
+import RoundImg from "./RoundImg";
 
 export default function TestimonialCard({
   author,
@@ -29,16 +31,7 @@ export default function TestimonialCard({
       </div>
       <p className="my-3 flex-1 sm:text-center md:text-left">{text}</p>
       <div className="flex sm:flex-col md:flex-row items-center space-x-4">
-        <div className="h-10 w-10 md:h-14 md:w-14 rounded-full overflow-hidden">
-          <Image
-            src={imgUrl}
-            alt="profile"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-auto h-auto object-center object-cover"
-          />
-        </div>
+        <RoundImg imgUrl={imgUrl} />
         <div className="capitalize sm:text-center md:text-left">
           <h6 className="font-semibold whitespace-nowrap">{author}</h6>
           <p className="text-sm text-gray-400">{occupation}</p>

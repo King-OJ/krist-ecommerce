@@ -1,25 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  TbArrowBarRight,
   TbArrowRight,
-  TbBrandCashapp,
   TbBrandFacebook,
   TbBrandInstagram,
-  TbBrandPaypal,
-  TbBrandVisa,
   TbBrandX,
-  TbDotsCircleHorizontal,
-  TbLocation,
-  TbLocationDown,
-  TbLocationPin,
   TbMail,
   TbMapPin,
-  TbMarkdown,
-  TbMessage,
   TbPhoneCall,
-  TbPointerPin,
-  TbRecordMail,
 } from "react-icons/tb";
 
 export default function Footer() {
@@ -29,7 +17,7 @@ export default function Footer() {
     <footer className="bg-black text-white">
       <div>
         <div className="divide-y-[1px]">
-          <div className="py-8 flex flex-wrap gap-6 justify-between">
+          <div className="py-8 flex flex-wrap gap-1 md:gap-6 justify-between">
             <div>
               <Link href={"/"} className="z-10 flex items-center space-x-[2px]">
                 <Image
