@@ -17,10 +17,6 @@ export type ModalContextType = {
   closeModal: (route?: string) => void;
 };
 
-export type UserContextType = {
-  userId: string | undefined;
-};
-
 export const ModalContext = createContext<ModalContextType | null>(null);
 
 const ClientLayout = ({

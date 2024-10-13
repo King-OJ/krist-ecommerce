@@ -1,9 +1,12 @@
+import { ActionButton } from "@/components";
+import AddressAndActionBtns from "@/components/AddressAndActionBtns";
 import RoundImg from "@/components/RoundImg";
 import { clientConfig, serverConfig } from "@/config";
+import { addresses } from "@/lib/mockdata";
 import { fetchUserInfo } from "@/lib/utils";
 import { getTokens } from "next-firebase-auth-edge";
 import { cookies } from "next/headers";
-import { ReactNode, useContext } from "react";
+import { ReactNode } from "react";
 import { BsInboxes } from "react-icons/bs";
 import {
   FaRegUser,
@@ -11,6 +14,7 @@ import {
   FaRegBell,
   FaRegHeart,
 } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa6";
 import { GoGear } from "react-icons/go";
 import { TbMapPin } from "react-icons/tb";
 
@@ -69,7 +73,7 @@ export default async function ProfilePage() {
     <section className="min-h-[50vh]">
       <div>
         <h1 className="text-2xl font-normal mb-6">My Profile</h1>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-8">
           <div className="border border-gray-300 divide-y">
             <div className="flex px-6 py-4 items-center space-x-4">
               <RoundImg imgUrl="/profile_img2.jpeg" />
@@ -89,6 +93,22 @@ export default async function ProfilePage() {
                 >
                   {link.icon}
                   <p className="font-medium">{link.title}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex-1">
+            <div className="max-w-xs">
+              <ActionButton title="add new address" icon={<FaPlus />} />
+            </div>
+            <ul className="my-6">
+              {addresses.map((address, index) => (
+                <li key={index} className="py-4 border-b">
+                  <AddressAndActionBtns
+                    title={address.title}
+                    location={address.location}
+                    phoneNo={address.phoneNo}
+                  />
                 </li>
               ))}
             </ul>

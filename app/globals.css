@@ -44,3 +44,7 @@ h5,
 h6 {
   @apply capitalize;
 }
+
+button {
+  @apply hover:shadow-sm transition-all duration-150;
+}

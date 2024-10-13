@@ -127,3 +127,27 @@ export const stories = [
     imgUrl: "/krist_signIn_img.png",
   },
 ];
+
+export type Address = {
+  title: string;
+  location: string;
+  phoneNo: string;
+};
+
+export const addresses: Address[] = [
+  {
+    title: "robert fox",
+    location: "4517 Washington Ave, Manchester, Kentucky 39495",
+    phoneNo: "23480123456",
+  },
+  {
+    title: "john williams",
+    location: "3891 Ranchview Dr. Richardson, California 62639",
+    phoneNo: "23480123456",
+  },
+  {
+    title: "alexa johnson",
+    location: "4517 Washington Ave, Manchester, Kentucky 39495",
+    phoneNo: "23480123456",
+  },
+];

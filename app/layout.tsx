@@ -5,6 +5,7 @@ import { Jost } from "next/font/google";
 import { clientConfig, serverConfig } from "@/config";
 import { getTokens } from "next-firebase-auth-edge";
 import { cookies } from "next/headers";
+import React, { cloneElement } from "react";
 
 export const metadata: Metadata = {
   title: "Krist E-commerce",
