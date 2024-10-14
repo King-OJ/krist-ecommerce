@@ -18,11 +18,11 @@ export default function AddressAndActionBtns({
         </a>
       </div>
       <div className="space-y-2">
-        <button className="w-20 h-8 justify-center font-normal text-sm rounded-lg flex gap-1 bg-gray-100 hover:text-white hover:bg-black items-center">
+        <button className="w-20 h-8 justify-center font-normal text-sm rounded-lg flex gap-1 bg-[#d0d0d2] bg-opacity-80 hover:bg-opacity-100 items-center transition-all duration-150">
           <FiEdit />
           <span>Edit</span>
         </button>
-        <button className="w-20 h-8 justify-center font-normal text-sm rounded-lg flex gap-1 text-red-500 hover:text-white bg-red-100 hover:bg-red-500 items-center">
+        <button className="w-20 h-8 justify-center font-normal text-sm rounded-lg flex gap-1 text-red-500 hover:text-white bg-red-100 hover:bg-red-400 items-center transition-all duration-150">
           <FiTrash2 />
           <span>Delete</span>
         </button>

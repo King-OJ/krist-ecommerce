@@ -27,6 +27,10 @@ export default function OTPInputs({ length = 5, onComplete }: OTPInputProps) {
     }
   }
 
+  function openOTPModal() {
+    openModal("OTPModal");
+  }
+
   return (
     <>
       <div className="flex justify-center w-full md:justify-start">
@@ -61,7 +65,7 @@ export default function OTPInputs({ length = 5, onComplete }: OTPInputProps) {
         <ActionButton
           title={isLoading ? "verifying" : "verify"}
           disabled={isLoading}
-          action={openModal}
+          action={openOTPModal}
         />
       </div>
     </>

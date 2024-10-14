@@ -12,8 +12,8 @@ import Navbar from "./Navbar";
 import { Tokens } from "next-firebase-auth-edge";
 
 export type ModalContextType = {
-  showModal: boolean;
-  openModal: () => void;
+  modal: object;
+  openModal: (type: string) => void;
   closeModal: (route?: string) => void;
 };
 
@@ -26,20 +26,22 @@ const ClientLayout = ({
   children: React.ReactNode;
   token: Tokens | null;
 }>) => {
-  const [showModal, setShowModal] = useState(false);
+  const [modal, setModal] = useState({ showModal: false, type: "" });
   const router = useRouter();
 
   function closeModal(route?: string) {
-    setShowModal(false);
+    setModal({ showModal: false, type: "" });
     if (route) {
       setTimeout(() => {
         router.push(route);
       }, 1000);
     }
   }
-  function openModal() {
-    setShowModal(true);
+
+  function openModal(type: string) {
+    setModal({ showModal: true, type });
   }
+
   const pathname = usePathname();
   const noNavbar = [
     "/register",
@@ -51,7 +53,7 @@ const ClientLayout = ({
 
   return (
     <main className="max-w-7xl mx-auto relative">
-      <ModalContext.Provider value={{ showModal, closeModal, openModal }}>
+      <ModalContext.Provider value={{ modal, closeModal, openModal }}>
         {noNavbar ? null : <Navbar token={token} />}
         <Link
           href={"/"}
@@ -68,7 +70,9 @@ const ClientLayout = ({
         </Link>
         {children}
         {noNavbar ? null : <Footer />}
-        {showModal && <ModalBox onClose={closeModal} />}
+        {modal.showModal && (
+          <ModalBox onClose={closeModal} modalType={modal.type} />
+        )}
       </ModalContext.Provider>
       <ToastContainer theme="dark" transition={Slide} />
     </main>

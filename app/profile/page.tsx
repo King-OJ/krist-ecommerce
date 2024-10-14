@@ -1,4 +1,5 @@
 import { ActionButton } from "@/components";
+import AddNewAddressBtn from "@/components/AddNewAddressBtn";
 import AddressAndActionBtns from "@/components/AddressAndActionBtns";
 import RoundImg from "@/components/RoundImg";
 import { clientConfig, serverConfig } from "@/config";
@@ -99,7 +100,7 @@ export default async function ProfilePage() {
           </div>
           <div className="flex-1">
             <div className="max-w-xs">
-              <ActionButton title="add new address" icon={<FaPlus />} />
+              <AddNewAddressBtn />
             </div>
             <ul className="my-6">
               {addresses.map((address, index) => (
